@@ -8,7 +8,21 @@ function Todo() {
     const todoList = state.todoList;
     const email = state.email;
 
-    const [sleepButton, setSleepButton] = useState("Start Sleep Timer");
+    const [sleepFlag, setSleepFlag] = useState(false);
+    
+    fetch("http://localhost:3000/isSleep", {
+        method: "POST",
+        body: JSON.stringify({            
+            email: email
+        }),
+        headers: {
+            "content-type": "application/json"
+        }
+    })
+        .then(async function(res) {
+            const isSleep = await res.json();
+            setSleepFlag(isSleep);
+        })
 
     const [exerciseCount, setExerciseCount] = useState({});
             
@@ -27,8 +41,7 @@ function Todo() {
     }    
 
     return (
-        <div>
-            <div> {todoList} </div>
+        <div>            
             Enter the counts of the exercises: <br />
                 {todoList.map((item) => {
                     return <div>
@@ -54,13 +67,12 @@ function Todo() {
                     })
             }}> Save </button> <br /> <br />
 
-            {/*<button onClick={() => {
+            <button onClick={() => {
                 fetch("http://localhost:3000/sleep", {
                     method: "POST",
                     body: JSON.stringify({
-                        todoList: todoList,
-                        exerciseCount: exerciseCount,
-                        email: email
+                        email: email,
+                        sleepFlag: sleepFlag
                     }),
                     headers: {
                         "content-type": "application/json"
@@ -70,7 +82,25 @@ function Todo() {
                         const todoList = await res.json();                    
                         
                     })
-            }}> {sleepButton} </button>*/}
+
+                setSleepFlag(!sleepFlag);
+            }}> {sleepFlag ? "Stop Sleep Timer" : "Start Sleep Timer"} </button> <br /> <br />
+
+            <button onClick={() => {
+                fetch("http://localhost:3000/history", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        email: email
+                    }),
+                    headers: {
+                        "content-type": "application/json"
+                    }
+                })
+                    .then(async function(res) {
+                        const history = await res.json();                    
+                        navigate("/signup/level/todo/history", { state: { history } });
+                    })
+            }}> View History </button>
         </div>
     )
 }

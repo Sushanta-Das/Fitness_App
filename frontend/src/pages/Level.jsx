@@ -8,7 +8,7 @@ function Level() {
     const [targetLevel, setTargetLevel] = useState("");
     const [selectedExerciseList, setSelectedExerciseList] = useState([]);
 
-    const email = state.email;
+    const email = state.email;    
 
     function handleOnChange(isChecked, item) {
         if (isChecked) {

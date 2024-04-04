@@ -6,7 +6,7 @@ function Home() {
     return (        
         <div>
             <button className="" onClick={() => navigate("/signup")}> Signup </button>
-            <button className=""> Login </button>            
+            <button className="" onClick={() => navigate("/login")}> Login </button>            
         </div>
     )
 }

@@ -123,11 +123,18 @@ app.post("/todo", async function(req, res) {
     const ISIOffset = 330; // UTC +5:30
     const ISTTime = new Date(currentTime.getTime() + ISIOffset*60000);
     console.log(ISTTime);
-        
-    const tomorrow = new Date(currentTime.getTime() + ISIOffset*60000);
-    tomorrow.setDate(ISTTime.getDate()+1);
-    tomorrow.setHours(0, 0, 0);
+
+    const currentTime2 = new Date();    
+    const ISIOffset2 = 330; // UTC +5:30
+    currentTime2.setDate(currentTime2.getDate()+1);
+    currentTime2.setHours(0, 0, 0);
+    const tomorrow = new Date(currentTime2.getTime() + ISIOffset2*60000);
     console.log(tomorrow);
+        
+    /*const tomorrow = new Date(currentTime.getTime() + ISIOffset*60000);
+    tomorrow.setDate(tomorrow.getDate()+1);
+    tomorrow.setHours(0, 0, 0);
+    console.log(tomorrow);*/
 
     const userActivityEntry = await userActivity.findOne({
         email: email
@@ -135,7 +142,7 @@ app.post("/todo", async function(req, res) {
 
     var historyArray = userActivityEntry.history;
     if(historyArray.length == 0) {
-        historyArray.push({ date: ISTTime, calorieBurnt: totalCalorie });
+        historyArray.push({ date: ISTTime, calorieBurnt: totalCalorie, sleepDurationMinutes: 0 });
     }
     else {
         var lastElement = historyArray[historyArray.length-1];
@@ -145,7 +152,7 @@ app.post("/todo", async function(req, res) {
             historyArray[historyArray.length-1].calorieBurnt = totalCalorie;
         }
         else {
-            historyArray.push({ date: ISTTime, calorieBurnt: totalCalorie });
+            historyArray.push({ date: ISTTime, calorieBurnt: totalCalorie, sleepDurationMinutes: 0 });
         }
     }
     
@@ -169,6 +176,144 @@ app.post("/todo", async function(req, res) {
     res.json(
         todoList
     )
+})
+
+app.post("/isSleep", async function(req, res) {
+    const email = req.body.email;
+
+    const exercisesCountEntry = await exercisesCount.findOne({
+        email: email
+    })
+    console.log(exercisesCountEntry.isSleeping)
+
+    res.json(
+        exercisesCountEntry.isSleeping
+    )
+})
+
+app.post("/sleep", async function(req, res) {
+    const sleepFlag = req.body.sleepFlag;
+    const email = req.body.email;
+
+    const currentTime = new Date();
+    const currentOffset = currentTime.getTimezoneOffset();
+    const ISIOffset = 330; // UTC +5:30
+    const ISTTime = new Date(currentTime.getTime() + ISIOffset*60000);
+    console.log(ISTTime);
+
+    const currentTime2 = new Date();    
+    const ISIOffset2 = 330; // UTC +5:30
+    currentTime2.setDate(currentTime2.getDate()-1);
+    currentTime2.setHours(0, 0, 0);
+    const yesterday = new Date(currentTime2.getTime() + ISIOffset2*60000);
+    console.log(yesterday);
+
+    if(sleepFlag) {
+        await exercisesCount.updateOne({
+            email: email
+        }, {
+            isSleeping: false            
+        })
+
+        const exercisesCountEntry = await exercisesCount.findOne({
+            email: email
+        })
+
+        const sleepStartTime = exercisesCountEntry.sleepStartTime;
+        console.log(sleepStartTime);
+
+        const sleepDurationMinutes = (ISTTime - sleepStartTime) / 60000;
+
+        const userActivityEntry = await userActivity.findOne({
+            email: email
+        })
+    
+        var historyArray = userActivityEntry.history;
+        if(historyArray.length == 0 || historyArray.length == 1) {      
+            historyArray.unshift({ date: yesterday, calorieBurnt: 0, sleepDurationMinutes: sleepDurationMinutes }); // inserts at beginning of list
+        }
+        else {
+            var lastElement = historyArray[historyArray.length-2];
+            var lastDate = lastElement.date;
+    
+            if (lastDate >= yesterday && lastDate < ISTTime.setHours(0, 0, 0)) {
+                historyArray[historyArray.length-2].sleepDurationMinutes = sleepDurationMinutes;
+            }
+            else {
+                historyArray.splice(historyArray.length-1, 0, { date: yesterday, calorieBurnt: 0, sleepDurationMinutes: sleepDurationMinutes }); // inserts before the last element
+            }
+        }
+        
+        await userActivity.updateOne({
+            email: email
+        }, {
+            history: historyArray
+        })
+    }
+    else {   
+        await exercisesCount.updateOne({
+            email: email
+        }, {
+            isSleeping: true,
+            sleepStartTime: ISTTime
+        })
+    }
+
+    res.json(
+        email
+    )
+})
+
+app.post("/history", async function(req, res) {
+    const email = req.body.email;
+
+    const userActivityEntry = await userActivity.findOne({
+        email: email
+    })
+    
+    res.json(
+        userActivityEntry.history
+    )
+})
+
+app.post("/login", async function(req, res) {
+    const email = req.body.email;
+    const password = req.body.password;
+
+    var validEmailPassword = []
+    var todoList = []
+
+    const userEntry = await user.find({
+        email: email
+    })
+
+    if (userEntry.length == 0) {
+        validEmailPassword.push(false);
+        validEmailPassword.push(false);
+    }
+    else {
+        if (password == userEntry[0].password) {
+            validEmailPassword.push(true);
+            validEmailPassword.push(true);
+
+            const exercisesCountEntry = await exercisesCount.findOne({
+                email: email
+            })
+
+            exercisesCountEntry.selectedExercise.map((item) => {
+                todoList.push(item.name);
+            })
+        }
+        else {
+            validEmailPassword.push(true);
+            validEmailPassword.push(false);
+        }
+    }
+
+    res.json({
+        validEmailPassword,
+        todoList
+    })
 })
 
 app.listen(3000, (error) => {
