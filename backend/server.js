@@ -143,7 +143,7 @@ app.post("/todo", async function(req, res) {
 
     var historyArray = userActivityEntry.history;
     if(historyArray.length == 0) {
-        historyArray.push({ date: ISTTime, calorieBurnt: totalCalorie, sleepDurationMinutes: 0 });
+        historyArray.push({ date: ISTTime, calorieBurnt: totalCalorie, steps: 0, sleepDurationMinutes: 0 });
     }
     else {
         var lastElement = historyArray[historyArray.length-1];
@@ -153,7 +153,7 @@ app.post("/todo", async function(req, res) {
             historyArray[historyArray.length-1].calorieBurnt = totalCalorie;
         }
         else {
-            historyArray.push({ date: ISTTime, calorieBurnt: totalCalorie, sleepDurationMinutes: 0 });
+            historyArray.push({ date: ISTTime, steps: 0, calorieBurnt: totalCalorie, sleepDurationMinutes: 0 });
         }
     }
     
@@ -177,6 +177,29 @@ app.post("/todo", async function(req, res) {
     res.json(
         todoList
     )
+})
+app.post("/PostSteps", async function(req, res) {
+    const stepInfo = req.body;
+    const steps = stepInfo.steps;
+    const email = stepInfo.email;
+    const currentDate = new Date();
+    
+    const userActivityEntry = await userActivity.findOne({ email: email });
+    if(userActivityEntry == null) {return res.status(404).json({ success: false });}
+    const historyArray = userActivityEntry.history;
+    const lastHistoryEntry = historyArray[historyArray.length - 1];
+    
+    if (lastHistoryEntry && lastHistoryEntry.date.toDateString() === currentDate.toDateString()) {
+        lastHistoryEntry.steps = steps;
+    } else {
+        historyArray.push({ date: currentDate, steps: steps, calorieBurnt: 0, sleepDurationMinutes: 0 });
+    }
+    
+    await userActivity.updateOne({ email: email }, { history: historyArray });
+    console.log("Steps updated successfully")
+    res.status(200).json({
+        success: true
+    });
 })
 
 app.post("/isSleep", async function(req, res) {
@@ -231,7 +254,7 @@ app.post("/sleep", async function(req, res) {
     
         var historyArray = userActivityEntry.history;
         if(historyArray.length == 0 || historyArray.length == 1) {      
-            historyArray.unshift({ date: yesterday, calorieBurnt: 0, sleepDurationMinutes: sleepDurationMinutes }); // inserts at beginning of list
+            historyArray.unshift({ date: yesterday, calorieBurnt: 0,  steps: 0,sleepDurationMinutes: sleepDurationMinutes }); // inserts at beginning of list
         }
         else {
             var lastElement = historyArray[historyArray.length-2];
@@ -241,7 +264,7 @@ app.post("/sleep", async function(req, res) {
                 historyArray[historyArray.length-2].sleepDurationMinutes = sleepDurationMinutes;
             }
             else {
-                historyArray.splice(historyArray.length-1, 0, { date: yesterday, calorieBurnt: 0, sleepDurationMinutes: sleepDurationMinutes }); // inserts before the last element
+                historyArray.splice(historyArray.length-1, 0,  { date: yesterday, calorieBurnt: 0, steps: 0,sleepDurationMinutes: sleepDurationMinutes }); // inserts before the last element
             }
         }
         

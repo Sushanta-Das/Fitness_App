@@ -41,6 +41,7 @@ const userActivitySchema = mongoose.Schema({
     history: [{
         date: Date,
         calorieBurnt: Number,
+        steps: Number,
         sleepDurationHours: Number,
         sleepDurationMinutes: Number
     }]    
