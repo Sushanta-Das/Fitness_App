@@ -32,7 +32,7 @@ app.post("/signup", async function(req, res) {
         password: password
     })
     
-    var exercisesObject = await exercises.find({});
+    var exercisesObject = await exercises.find({Category: currentState});
     /*console.log(typeof exercisesObject);
     console.log(exercisesObject);
     console.log("abc");*/
@@ -52,6 +52,7 @@ app.post("/signup", async function(req, res) {
         exerciseList
     )
 })
+
 
 app.post("/level", async function(req, res) {
     const levelInfo = req.body;

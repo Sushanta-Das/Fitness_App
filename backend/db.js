@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb://localhost:27017/fitness_app")
+mongoose.connect("mongodb://127.0.0.1:27017/fitness_app")
 
 const userSchema = mongoose.Schema({    
     email: String,
@@ -16,7 +16,13 @@ const userSchema = mongoose.Schema({
 
 const exerciseSchema = mongoose.Schema({
     name: String,
-    value: Number
+    val: Number,
+   Category: String,
+    Target: String,
+        duration: Number,
+        No: Number,
+        Set: Number
+    
 })
 
 const exerciseCountSchema = mongoose.Schema({
