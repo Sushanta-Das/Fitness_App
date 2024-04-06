@@ -16,7 +16,7 @@ const userSchema = mongoose.Schema({
 
 const exerciseSchema = mongoose.Schema({
     name: String,
-    val: Number,
+    value: Number,
    Category: String,
     Target: String,
         duration: Number,
