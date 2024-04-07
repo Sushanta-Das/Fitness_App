@@ -21,40 +21,43 @@ function Level() {
   }
 
   return (
-    <div>
-      Choose your preferred exercises: <br />
-      {state.exerciseList.map((item) => {
-        return (
-          <div>
-            <input
-              type="checkbox"
-              onChange={(e) => handleOnChange(e.target.checked, item)}
-            />{" "}
-            {item}
-          </div>
-        );
-      })}
-      <button
-        onClick={() => {
-          fetch("http://localhost:3000/level", {
-            method: "POST",
-            body: JSON.stringify({
-              targetLevel: targetLevel,
-              selectedExerciseList: selectedExerciseList,
-              email: email,
-            }),
-            headers: {
-              "content-type": "application/json",
-            },
-          }).then(async function (res) {
-            const todoList = await res.json();
-            navigate("/signup/level/todo", { state: { todoList, email } });
-          });
-        }}
-      >
-        {" "}
-        Submit{" "}
-      </button>
+    <div className="container" style={{ height: "auto" }}>
+      <div className="form">
+        Choose your preferred exercises: <br />
+        {state.exerciseList.map((item) => {
+          return (
+            <div>
+              <input
+                type="checkbox"
+                onChange={(e) => handleOnChange(e.target.checked, item)}
+              />{" "}
+              {item}
+            </div>
+          );
+        })}
+        <button
+          className="btn"
+          onClick={() => {
+            fetch("http://localhost:3000/level", {
+              method: "POST",
+              body: JSON.stringify({
+                targetLevel: targetLevel,
+                selectedExerciseList: selectedExerciseList,
+                email: email,
+              }),
+              headers: {
+                "content-type": "application/json",
+              },
+            }).then(async function (res) {
+              const todoList = await res.json();
+              navigate("/signup/level/todo", { state: { todoList, email } });
+            });
+          }}
+        >
+          {" "}
+          Submit{" "}
+        </button>
+      </div>
     </div>
   );
 }
