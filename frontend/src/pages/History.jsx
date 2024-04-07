@@ -1,12 +1,28 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { Line } from "react-chartjs-2";
+import {
+  Chart,
+  CategoryScale,
+  LinearScale,
+  LineController,
+  LineElement,
+  PointElement,
+} from "chart.js";
+
+Chart.register(
+  CategoryScale,
+  LinearScale,
+  LineController,
+  LineElement,
+  PointElement
+);
 
 function History() {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [history, setHistory] = useState([]);
   const email = state.email;
-  //   const history = state.history;
 
   useEffect(() => {
     fetch("http://localhost:3000/history", {
@@ -22,40 +38,79 @@ function History() {
       setHistory(history);
     });
   }, []);
+
+  // Prepare data for line charts
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString();
+  };
+
+  const stepsData = {
+    labels: history.map((item) => formatDate(item.date)),
+    datasets: [
+      {
+        label: "Daily Steps",
+        data: history.map((item) => item.steps),
+        fill: false,
+        borderColor: "red",
+      },
+    ],
+  };
+
+  const sleepDurationData = {
+    labels: history.map((item) => formatDate(item.date)),
+    datasets: [
+      {
+        label: "Sleep Duration",
+        data: history.map((item) => {
+          const hours = Math.round(item.sleepDurationMinutes / 60);
+          return hours;
+        }),
+        fill: false,
+        borderColor: "blue",
+      },
+    ],
+    options: {
+      scales: {
+        y: {
+          ticks: {
+            min: 0,
+            max: 14,
+            stepSize: 2, // Set the step size to 2 if you want intervals of 2 hours
+            callback: function (value) {
+              return value + " hr";
+            },
+          },
+        },
+      },
+    },
+  };
+  const exerciseCompletionData = {
+    labels: history.map((item) => formatDate(item.date)),
+    datasets: [
+      {
+        label: "Exercise Completion",
+        data: history.map((item) => item.exerciseCompleted),
+        fill: false,
+        borderColor: "green",
+      },
+    ],
+  };
+
   return (
     <div>
-      <table>
-        <thead>
-          <tr>
-            <th> Date </th>
-            <th> Calorie Burnt </th>
-            <th> Step Count </th>
-            <th> Sleep Duration </th>
-          </tr>
-        </thead>
-        <tbody>
-          {history.map((item) => {
-            const dateTime = String(item.date);
-            const date = dateTime.split("T");
-
-            const sleepDuration = Math.round(item.sleepDurationMinutes);
-            const sleepDurationHr = Math.floor(sleepDuration / 60);
-            const sleepDurationMin = sleepDuration % 60;
-
-            return (
-              <tr key={item.id}>
-                <td> {date[0]} </td>
-                <td> {item.calorieBurnt} </td>
-                <td> {item.steps}</td>
-                <td>
-                  {" "}
-                  {sleepDurationHr} hr {sleepDurationMin} mins{" "}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <div style={{ width: "40vw" }}>
+        <h2>Daily Steps</h2>
+        <Line data={stepsData} />
+      </div>
+      <div style={{ width: "40vw" }}>
+        <h2>Sleep Duration</h2>
+        <Line data={sleepDurationData} />
+      </div>
+      <div style={{ width: "40vw" }}>
+        <h2>Exercise Completion</h2>
+        <Line data={exerciseCompletionData} />
+      </div>
     </div>
   );
 }

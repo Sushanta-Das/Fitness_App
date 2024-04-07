@@ -40,7 +40,11 @@ const userActivitySchema = mongoose.Schema({
     email: String,
     history: [{
         date: Date,
+        level:String,
         calorieBurnt: Number,
+       
+        exerciseCompleted:Number,
+        proteinRecommendation:Number,
         steps: Number,
         sleepDurationHours: Number,
         sleepDurationMinutes: Number
