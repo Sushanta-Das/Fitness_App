@@ -402,13 +402,21 @@ app.get("/recommendation", async function(req, res) {
     // console.log(profile)
 
     // activity
+    const currentDate = new Date();
+    const sevenDaysAgo = new Date(currentDate);
+    sevenDaysAgo.setDate(currentDate.getDate() - 7);
+    
     const userActivityEntry = await userActivity.findOne({
-        email: email
-    })
+        email: email,
+        'history.date': { $gte: sevenDaysAgo, $lte: currentDate }
+    }).sort({ 'history.date': -1 });
+    
+    
     var history=userActivityEntry.history
     if (history.length>7) {
         history=history.slice(-7)
     }
+    console.log(history);
     const totalExerciseCompleted = Math.round((history.reduce((total, entry) => total + entry.exerciseCompleted, 0))/100);
     // console.log(totalExerciseCompleted)
     //adding foot step calories
@@ -428,7 +436,7 @@ app.get("/recommendation", async function(req, res) {
         {"user":profile,
         "state":profile.currentState,
         "calories_in_walking":step_calories,
-        "workdays":totalExerciseCompleted,
+        "net_workdays":totalExerciseCompleted,
         "recommendation":recommendation}
     )
     // res.json(
