@@ -98,18 +98,21 @@ function History() {
   };
 
   return (
-    <div>
-      <div style={{ width: "40vw" }}>
-        <h2>Daily Steps</h2>
-        <Line data={stepsData} />
-      </div>
-      <div style={{ width: "40vw" }}>
-        <h2>Sleep Duration</h2>
-        <Line data={sleepDurationData} />
-      </div>
-      <div style={{ width: "40vw" }}>
-        <h2>Exercise Completion</h2>
-        <Line data={exerciseCompletionData} />
+    <div className="total-content">
+      <h1> Activities </h1>
+      <div className="box">
+        <div style={{ width: "40vw" }}>
+          <h2>Daily Steps</h2>
+          <Line data={stepsData} />
+        </div>
+        <div style={{ width: "40vw" }}>
+          <h2>Sleep Duration</h2>
+          <Line data={sleepDurationData} />
+        </div>
+        <div style={{ width: "40vw" }}>
+          <h2>Exercise Completion</h2>
+          <Line data={exerciseCompletionData} />
+        </div>
       </div>
     </div>
   );
