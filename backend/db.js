@@ -49,7 +49,7 @@ const userActivitySchema = mongoose.Schema({
         sleepDurationHours: Number,
         sleepDurationMinutes: Number
     }]    
-})
+}) 
 
 const user = mongoose.model('user', userSchema);
 const exercises = mongoose.model('exercises', exerciseSchema);

@@ -1,151 +1,226 @@
-{
-    "_id": {
-      "$oid": "66127253e6279442ac22849f"
-    },
-    "email": "b@b.b",
-    "history": [
-      {
-        "date": {
-          "$date": "2024-04-06T00:00:00.915Z"
-        },
-        "calorieBurnt": 0,
-        "sleepDurationMinutes": 1.4868666666666666,
-        "_id": {
-          "$oid": "661272bde6279442ac22868e"
-        }
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Line } from "react-chartjs-2";
+import {
+  Chart,
+  CategoryScale,
+  LinearScale,
+  LineController,
+  LineElement,
+  PointElement,
+} from "chart.js";
+
+Chart.register(
+  CategoryScale,
+  LinearScale,
+  LineController,
+  LineElement,
+  PointElement
+);
+
+function History() {
+  const navigate = useNavigate();
+  const { state } = useLocation();
+  const [history, setHistory] = useState([]);
+  const [recommendationData, setRecommendationData] = useState(null);
+  const email = state.email;
+
+  useEffect(() => {
+    fetch("http://localhost:3000/history", {
+      method: "POST",
+      body: JSON.stringify({
+        email: email,
+      }),
+      headers: {
+        "content-type": "application/json",
       },
-      {
-        "date": {
-          "$date": "2024-04-07T15:46:02.573Z"
-        },
-        "calorieBurnt": 570,
-        "exerciseCompleted": 70,
-        "sleepDurationMinutes": 0,
-        "_id": {
-          "$oid": "66127262e6279442ac2285d3"
-        }
+    }).then(async function (res) {
+      const history = await res.json();
+      setHistory(history);
+    });
+
+    fetch("http://localhost:3000/recommendation", {
+      method: "POST",
+      body: JSON.stringify({
+        email: email,
+      }),
+      headers: {
+        "content-type": "application/json",
       },
+    }).then(async function (res) {
+      const recommendationData = await res.json();
+      setRecommendationData(recommendationData);
+    });
+  }, []);
+
+  // Prepare data for line charts
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString();
+  };
+
+  const stepsData = {
+    labels: history.map((item) => formatDate(item.date)),
+    datasets: [
       {
-        "date": {
-          "$date": "2024-04-08T15:46:02.573Z"
-        },
-        "calorieBurnt": 570,
-        "exerciseCompleted": 70,
-        "sleepDurationMinutes": 0,
-        "_id": {
-          "$oid": "66127262e6279442ac2285d3"
-        }
+        label: "Daily Steps",
+        data: history.map((item) => item.steps),
+        fill: false,
+        borderColor: "red",
       },
-      {
-        "date": {
-          "$date": "2024-04-09T15:46:02.573Z"
-        },
-        "calorieBurnt": 570,
-        "exerciseCompleted": 70,
-        "sleepDurationMinutes": 0,
-        "_id": {
-          "$oid": "66127262e6279442ac2285d3"
-        }
-      },
-      {
-        "date": {
-          "$date": "2024-04-10T15:46:02.573Z"
-        },
-        "calorieBurnt": 570,
-        "exerciseCompleted": 70,
-        "sleepDurationMinutes": 0,
-        "_id": {
-          "$oid": "66127262e6279442ac2285d3"
-        }
-      },
-      {
-        "date": {
-          "$date": "2024-04-11T15:46:02.573Z"
-        },
-        "calorieBurnt": 570,
-        "exerciseCompleted": 70,
-        "sleepDurationMinutes": 0,
-        "_id": {
-          "$oid": "66127262e6279442ac2285d3"
-        }
-      },
-      {
-        "date": {
-          "$date": "2024-04-12T15:46:02.573Z"
-        },
-        "calorieBurnt": 570,
-        "exerciseCompleted": 70,
-        "sleepDurationMinutes": 0,
-        "_id": {
-          "$oid": "66127262e6279442ac2285d3"
-        }
-      },
-      {
-        "date": {
-          "$date": "2024-04-13T15:46:02.573Z"
-        },
-        "calorieBurnt": 570,
-        "exerciseCompleted": 70,
-        "sleepDurationMinutes": 0,
-        "_id": {
-          "$oid": "66127262e6279442ac2285d3"
-        }
-      },
-      {
-        "date": {
-          "$date": "2024-04-14T15:46:02.573Z"
-        },
-        "calorieBurnt": 570,
-        "exerciseCompleted": 70,
-        "sleepDurationMinutes": 0,
-        "_id": {
-          "$oid": "66127262e6279442ac2285d3"
-        }
-      },
-      {
-        "date": {
-          "$date": "2024-04-15T15:46:02.573Z"
-        },
-        "calorieBurnt": 570,
-        "exerciseCompleted": 70,
-        "sleepDurationMinutes": 0,
-        "_id": {
-          "$oid": "66127262e6279442ac2285d3"
-        }
-      },
-      {
-        "date": {
-          "$date": "2024-04-16T15:46:02.573Z"
-        },
-        "calorieBurnt": 570,
-        "exerciseCompleted": 70,
-        "sleepDurationMinutes": 0,
-        "_id": {
-          "$oid": "66127262e6279442ac2285d3"
-        }
-      },
-      {
-        "date": {
-          "$date": "2024-04-17T15:46:02.573Z"
-        },
-        "calorieBurnt": 570,
-        "exerciseCompleted": 70,
-        "sleepDurationMinutes": 0,
-        "_id": {
-          "$oid": "66127262e6279442ac2285d3"
-        }
-      },
-      {
-        "date": {
-          "$date": "2024-04-18T15:46:02.573Z"
-        },
-        "calorieBurnt": 570,
-        "exerciseCompleted": 70,
-        "sleepDurationMinutes": 0,
-        "_id": {
-          "$oid": "66127262e6279442ac2285d3"
-        }
-      }
     ],
-    "__v": 0
-  }
+  };
+
+  const sleepDurationData = {
+    labels: history.map((item) => formatDate(item.date)),
+    datasets: [
+      {
+        label: "Sleep Duration",
+        data: history.map((item) => {
+          const hours = Math.round(item.sleepDurationMinutes / 60);
+          return hours;
+        }),
+        fill: false,
+        borderColor: "blue",
+      },
+    ],
+    options: {
+      scales: {
+        y: {
+          ticks: {
+            min: 0,
+            max: 14,
+            stepSize: 2, // Set the step size to 2 if you want intervals of 2 hours
+            callback: function (value) {
+              return value + " hr";
+            },
+          },
+        },
+      },
+    },
+  };
+  const exerciseCompletionData = {
+    labels: history.map((item) => formatDate(item.date)),
+    datasets: [
+      {
+        label: "Exercise Completion",
+        data: history.map((item) => item.exerciseCompleted),
+        fill: false,
+        borderColor: "green",
+      },
+    ],
+  };
+
+  const openModal = () => {
+    // Implement your modal logic here
+    console.log(recommendationData);
+  };
+
+  return (
+    <div className="total-content2" >
+      <h1> Activities & Recommendations</h1>
+      <div className="newbox">
+        <div style={{ width: "31vw",height:"40vh" }}>
+          <h2>Hellow </h2>
+          <h2 style={{}}>5000</h2>
+        </div>
+        <div style={{ width: "31vw",height:"40vh" }}>
+          <h2>Sleep Duration</h2>
+          <Line data={sleepDurationData} />
+        </div>
+        <div style={{ width: "31vw",height:"40vh" }}>
+          <h2>Exercise Completion</h2>
+          <Line data={exerciseCompletionData} />
+        </div>
+      </div>
+      <div className="newbox">
+        <div style={{ width: "31vw",height:"40vh" }}>
+          <h2>Daily Steps</h2>
+          <Line data={stepsData} />
+        </div>
+        <div style={{ width: "31vw",height:"40vh" }}>
+          <h2>Sleep Duration</h2>
+          <Line data={sleepDurationData} />
+        </div>
+        <div style={{ width: "31vw",height:"40vh" }}>
+          <h2>Exercise Completion</h2>
+          <Line data={exerciseCompletionData} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default History;
+
+
+html, body {
+  margin: 0;   
+  min-height: 100%;
+}
+
+#root {
+  height: 100vh;
+  width: 100vw;
+  padding: 0;
+  background-image: url("./assets/image/pushup.jpg"); /*background_image.png*/
+  background-color: #cccccc;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: relative;    
+}
+
+.total-content {
+  height: 90vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+.total-content2 {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+h1 {
+  color: brown;
+  margin: 0;
+  padding: 0;            
+  top: 0;
+  position: fixed;
+  margin-top: 30px;
+  text-align: center;
+}
+
+.box {
+  background-color: rgba(219, 234, 251,.9);
+  padding: 20px;
+  max-width: max-content;   
+  text-align: center; 
+}
+.newbox {
+  display: flex;
+  background-color: rgba(219, 234, 251,.87);
+  padding: 2.5vh;
+  margin-top: 2vh;
+  max-width: max-content;   
+  text-align: center; 
+}
+
+table, td, th {
+  border: 2px solid; 
+}
+
+table {
+  border-collapse: collapse;
+}
+
+td {
+  text-align: center;
+}

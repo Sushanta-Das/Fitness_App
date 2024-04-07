@@ -130,16 +130,16 @@ function History() {
         className="box activityBox"
         style={{ display: "flex", flexWrap: "wrap" }}
       >
-        <div style={{ width: "30vw" }}>
+        <div style={{ width: "31vw" ,height:"38vh"}}>
           <h2>Daily Steps</h2>
           <Line data={stepsData} />
         </div>
-        <div style={{ width: "30vw" }}>
+        <div style={{ width: "31vw" ,height:"38vh",padding:'0'}}>
           <h2>Sleep Duration</h2>
           <Line data={sleepDurationData} />
         </div>
-        <div style={{ width: "30vw" }}>
-          <h2>Exercise Completion</h2>
+        <div style={{ width: "31vw" ,height:"38vh"}}>
+          <h2>Exercise Completion (%)</h2>
           <Line data={exerciseCompletionData} />
         </div>
         <button className="btn" onClick={openModal}>
