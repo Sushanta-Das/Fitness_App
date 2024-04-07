@@ -1,0 +1,78 @@
+Category,name,Target,Duration,No,Set,value
+Beginner,ARM SWINGS,Shoulder,20,10,1,10
+Beginner,SIDE ROTATION,Shoulder,20,10,1,10
+Beginner,SIDE LOGS,Chest,20,5,1,10
+Beginner,STANDING CRUNCHES,Abdominals,20,5,1,10
+Beginner,TWISTERS,Abdominals,20,5,1,10
+Beginner,BUTT KICKS,Legs,20,10,1,10
+Beginner,CROSS STRETCH,Legs,20,10,1,10
+Beginner,JUMPING JACKS,Legs,20,10,1,10
+Beginner,PUSHUPS,Chest,20,10,1,10
+Beginner,SQUATS,Legs,20,10,1,10
+Beginner,SQUAT JUMPS,Legs,20,5,1,10
+Beginner,DIAMOND PUSHPUS,Chest,20,5,1,10
+Beginner,SQUATS JUMPS,Legs,20,5,1,10
+Beginner,PUSHUPS,Chest,20,5,1,10
+Beginner,SQUAT HOLD,Legs,20,5,1,10
+Beginner,DIAMOND PUSHUPS,Chest,20,5,1,10
+Beginner,DUMBBELL ROWS,Back,20,5,1,10
+Beginner,SHOULDER PRESS,Shoulder,20,5,1,10
+Beginner,FRONT RAISES,Shoulder,20,5,1,10
+Beginner,LATERAL RAISES,Shoulder,20,5,1,10
+Beginner,BICEP CURLS,Biceps,20,5,1,10
+Beginner,TRICEP KICK BACKS,Triceps,20,5,1,10
+Beginner,CALF RAISES,Legs,20,10,1,10
+Beginner,KNEE TOUCH,Abdominals,20,5,1,10
+Beginner,RUSSIAN TWISTS,Abdominals,20,5,1,10
+Beginner,BICYCLES,Abdominals,20,5,1,10
+Beginner,KNEE TO ELBOW PLANK,Abdominals,20,5,1,10
+Beginner,KNEE TOUCH,Abdominals,20,5,1,10
+Beginner,RUSSIAN TWISTS,Abdominals,20,5,1,10
+Beginner,BICYCLES,Abdominals,20,5,1,10
+Beginner,KNEE TO ELBOW PLANK,Abdominals,20,5,1,10
+Intermediate,Normal push-up,Chest,120,8,1,10
+Intermediate,Wide arm push-up,Chest,120,8,1,10
+Intermediate,Close arm push-up,Chest,180,8,1,10
+Intermediate,Declined push-up,Chest,180,8,1,10
+Intermediate,Can use weight,Chest,240,8,1,10
+Intermediate,Chest fly,Chest,240,8,1,10
+Intermediate,Chest 6,Chest,240,8,1,10
+Intermediate,Hindu Push-up,Shoulder,300,8,2,10
+Intermediate,Side raises,Shoulder,360,8,2,10
+Intermediate,Front raises,Shoulder,360,8,2,10
+Intermediate,Shoulder 4,Shoulder,360,8,2,10
+Intermediate,Diamond push-up,Triceps,420,8,3,10
+Intermediate,Kick back,Triceps,420,8,3,10
+Intermediate,Triceps 3,Triceps,420,8,3,10
+Advanced,Alterior Leg Box Squats,Posterior Lower,240,12,1,10
+Advanced,Bottom Out Squats,Posterior Lower,240,12,1,10
+Advanced,Jump Squats,Posterior Lower,300,12,1,10
+Advanced,Handstand Pushups,Upper Lower,300,12,1,10
+Advanced,Rotational Pushups,Upper Lower,360,12,1,10
+Advanced,Cobra Pushups,Upper Lower,360,12,1,10
+Advanced,Alt Single Leg Heel Touch Squats,Anterior Lower,420,12,1,10
+Advanced,Alt Sprinter Lunges,Anterior Lower,420,12,1,10
+Advanced,Pylo Sprinter Lunge,Anterior Lower,420,12,1,10
+Advanced,Pullup,Upper Pull,420,12,1,10
+Advanced,Human Pullover,Upper Pull,480,12,1,10
+Advanced,Inverted Chin Pulls,Upper Pull,540,12,1,10
+Advanced,Reverse Corkscrew,Abs,540,12,1,10
+Advanced,Black Widow Knee Slides,Abs,540,12,1,10
+Advanced,Levitation Crunches,Abs,600,12,1,10
+Advanced,Angels and Devils,Corrective,600,12,1,10
+Advanced,Slick Floor Bridge,Posterior Lower,600,12,2,10
+Advanced,Long Leg Marches,Posterior Lower,660,12,2,10
+Advanced,High Hip Bucks,Posterior Lower,720,12,2,10
+Advanced,Variable Wall Pushup,Upper Lower,720,12,2,10
+Advanced,BW Side Lateral Raises,Upper Lower,720,12,2,10
+Advanced,BW Triceps Extensions,Upper Lower,780,12,2,10
+Advanced,Alt Crossover Step Ups,Anterior Lower,780,12,2,10
+Advanced,Alt Reverse Lunges,Anterior Lower,780,12,2,10
+Advanced,Split Squat Jump,Anterior Lower,840,12,2,10
+Advanced,Chinups,Upper Pull,840,12,2,10
+Advanced,Inverted Rows,Upper Pull,840,12,2,10
+Advanced,Back Widow,Upper Pull,900,12,2,10
+Advanced,Halos,Abs,900,12,2,10
+Advanced,V-Up Tucks,Abs,900,12,2,10
+Advanced,Sit Up Elbow Thrusts,Abs,900,12,2,10
+Advanced,Reverse Hypers,Corrective,900,12,2,10

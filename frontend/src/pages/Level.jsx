@@ -1,62 +1,62 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react"
+import { useState } from "react";
 
 function Level() {
-    const navigate = useNavigate();
-    const { state } = useLocation();
+  const navigate = useNavigate();
+  const { state } = useLocation();
 
-    const [targetLevel, setTargetLevel] = useState("");
-    const [selectedExerciseList, setSelectedExerciseList] = useState([]);
+  const [targetLevel, setTargetLevel] = useState("");
+  const [selectedExerciseList, setSelectedExerciseList] = useState([]);
 
-    const email = state.email;    
+  const email = state.email;
 
-    function handleOnChange(isChecked, item) {
-        if (isChecked) {
-            setSelectedExerciseList([...selectedExerciseList, item]); // appends 'item' to 'selectedExerciseList' array
-        }
-        else {
-            setSelectedExerciseList([...selectedExerciseList.filter(e => e !== item)]); // removes 'item' from 'selectedExerciseList' array
-        }
+  function handleOnChange(isChecked, item) {
+    if (isChecked) {
+      setSelectedExerciseList([...selectedExerciseList, item]); // appends 'item' to 'selectedExerciseList' array
+    } else {
+      setSelectedExerciseList([
+        ...selectedExerciseList.filter((e) => e !== item),
+      ]); // removes 'item' from 'selectedExerciseList' array
     }
+  }
 
-    return (
-        <div className="total-content">
-            <h1> Exercise List </h1>
-            <div className="box">                       
-                Choose your goal: <input list="goal" onChange={(e) => { setTargetLevel(e.target.value) }} />
-                    <datalist id="goal">                    
-                        <option value="Basic"> Fit for Daily Work </option>
-                        <option value="Intermediate"> Top 30% </option>
-                        <option value="Advance"> Top 5% </option>
-                    </datalist> <br /> <br />                
-
-                Choose your preferred exercises: <br /> <br />
-                    {state.exerciseList.map((item) => {
-                        return <div>
-                            <input type="checkbox" onChange={(e) => handleOnChange(e.target.checked, item)} /> {item}
-                        </div>
-                    })} <br /> <br /> <br />
-
-                <button onClick={() => {
-                    fetch("http://localhost:3000/level", {
-                        method: "POST",
-                        body: JSON.stringify({
-                            targetLevel: targetLevel,
-                            selectedExerciseList: selectedExerciseList,
-                            email: email
-                        }),
-                        headers: {
-                            "content-type": "application/json"
-                        }
-                    })
-                        .then(async function(res) {
-                            const todoList = await res.json();                      
-                            navigate("/signup/level/todo", { state: { todoList, email } });
-                        })
-                }}> Submit </button>
-            </div>
-        </div>
-    )
+  return (
+    <div>
+      Choose your preferred exercises: <br />
+      {state.exerciseList.map((item) => {
+        return (
+          <div>
+            <input
+              type="checkbox"
+              onChange={(e) => handleOnChange(e.target.checked, item)}
+            />{" "}
+            {item}
+          </div>
+        );
+      })}
+      <button
+        onClick={() => {
+          fetch("http://localhost:3000/level", {
+            method: "POST",
+            body: JSON.stringify({
+              targetLevel: targetLevel,
+              selectedExerciseList: selectedExerciseList,
+              email: email,
+            }),
+            headers: {
+              "content-type": "application/json",
+            },
+          }).then(async function (res) {
+            const todoList = await res.json();
+            navigate("/signup/level/todo", { state: { todoList, email } });
+          });
+        }}
+      >
+        {" "}
+        Submit{" "}
+      </button>
+    </div>
+  );
 }
 
-export default Level
+export default Level;

@@ -32,7 +32,7 @@ app.post("/signup", async function(req, res) {
         password: password
     })
     
-    var exercisesObject = await exercises.find({});
+    var exercisesObject = await exercises.find({Category: currentState});
     /*console.log(typeof exercisesObject);
     console.log(exercisesObject);
     console.log("abc");*/
@@ -52,6 +52,7 @@ app.post("/signup", async function(req, res) {
         exerciseList
     )
 })
+
 
 app.post("/level", async function(req, res) {
     const levelInfo = req.body;
@@ -103,15 +104,22 @@ app.post("/todo", async function(req, res) {
 
     var selectedExercise = []    
     var totalCalorie = 0;
-    Object.entries(selectedExerciseCount).map(async (item) => {
+    var exerciseDone=0;
+    var exerciseNo=0;
+    async function processExercise(item) {
         selectedExercise.push({ name: item[0], count: item[1].count });
-
-        const calorie = await exercises.findOne({
-            name: item[0]
-        })
-        totalCalorie += item[1].count * calorie.value;
-    })
     
+        const eachExercise = await exercises.findOne({ name: item[0] });
+        exerciseNo += 1;
+        // console.log(item[0], item[1].count, eachExercise.No, eachExercise.Set)
+        exerciseDone += (item[1].count / (eachExercise.No * eachExercise.Set)); // in percentage
+        // console.log(exerciseDone);
+        totalCalorie += item[1].count * eachExercise.value;
+    }
+    const promises = Object.entries(selectedExerciseCount).map(processExercise);
+    await Promise.all(promises);
+    exerciseDone=parseInt(exerciseDone/ exerciseNo *100);
+    console.log("Done = ", exerciseDone, " %");
     await exercisesCount.updateOne({
         email: email        
     }, {
@@ -143,7 +151,7 @@ app.post("/todo", async function(req, res) {
 
     var historyArray = userActivityEntry.history;
     if(historyArray.length == 0) {
-        historyArray.push({ date: ISTTime, calorieBurnt: totalCalorie, sleepDurationMinutes: 0 });
+        historyArray.push({ date: ISTTime, calorieBurnt: totalCalorie,exerciseCompleted:exerciseDone, sleepDurationMinutes: 0 });
     }
     else {
         var lastElement = historyArray[historyArray.length-1];
@@ -151,9 +159,10 @@ app.post("/todo", async function(req, res) {
 
         if (lastDate >= ISTTimeTemp.setHours(0, 0, 0) && lastDate < tomorrow) {
             historyArray[historyArray.length-1].calorieBurnt = totalCalorie;
+            historyArray[historyArray.length-1].exerciseCompleted = exerciseDone;
         }
         else {
-            historyArray.push({ date: ISTTime, calorieBurnt: totalCalorie, sleepDurationMinutes: 0 });
+            historyArray.push({ date: ISTTime, calorieBurnt: totalCalorie,exerciseCompleted:exerciseDone, sleepDurationMinutes: 0 });
         }
     }
     console.log(ISTTime);
@@ -316,6 +325,19 @@ app.post("/login", async function(req, res) {
         validEmailPassword,
         todoList
     })
+})
+
+
+app.get("/weekly", async function(req, res) {
+    const email = req.body.email;
+
+    const userActivityEntry = await userActivity.findOne({
+        email: email
+    })
+    
+    res.json(
+        userActivityEntry.history
+    )
 })
 
 app.listen(3000, (error) => {
