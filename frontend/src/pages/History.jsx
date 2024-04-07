@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Line } from "react-chartjs-2";
+import "../App.css";
 import {
   Chart,
   CategoryScale,
@@ -23,6 +24,7 @@ function History() {
   const { state } = useLocation();
   const [history, setHistory] = useState([]);
   const [recommendationData, setRecommendationData] = useState(null);
+  const [modal, setModal] = useState(false);
   const email = state.email;
 
   useEffect(() => {
@@ -113,27 +115,102 @@ function History() {
 
   const openModal = () => {
     // Implement your modal logic here
+    if (modal) setModal(false);
+    else setModal(true);
     console.log(recommendationData);
+  };
+  const closeModal = () => {
+    setModal(false);
   };
 
   return (
     <div className="total-content">
       <h1> Activities </h1>
-      <div className="box">
-        <div style={{ width: "40vw" }}>
+      <div
+        className="box activityBox"
+        style={{ display: "flex", flexWrap: "wrap" }}
+      >
+        <div style={{ width: "30vw" }}>
           <h2>Daily Steps</h2>
           <Line data={stepsData} />
         </div>
-        <div style={{ width: "40vw" }}>
+        <div style={{ width: "30vw" }}>
           <h2>Sleep Duration</h2>
           <Line data={sleepDurationData} />
         </div>
-        <div style={{ width: "40vw" }}>
+        <div style={{ width: "30vw" }}>
           <h2>Exercise Completion</h2>
           <Line data={exerciseCompletionData} />
         </div>
+        <button className="btn" onClick={openModal}>
+          Guidance
+        </button>
       </div>
-      <button onClick={openModal}>Open Modal</button>
+
+      {modal && (
+        <div className="Modal">
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              gap: "2vw",
+            }}
+          >
+            <div style={{ fontSize: "2em", fontWeight: "bold" }}>Guidance</div>
+            <button className="btn" onClick={closeModal}>
+              Close
+            </button>
+          </div>
+
+          <div className="recommendation-data">
+            <div>
+              <h3>User Information</h3>
+              <p>Email: {recommendationData.user.email}</p>
+              <p>Name: {recommendationData.user.name}</p>
+              <p>Gender: {recommendationData.user.gender}</p>
+              <p>Age: {recommendationData.user.age}</p>
+              <p>Height: {recommendationData.user.height}</p>
+              <p>Weight: {recommendationData.user.weight}</p>
+              <p>Current State: {recommendationData.user.currentState}</p>
+            </div>
+            <div>
+              <h3>Recommendation</h3>
+              <p>BMR: {recommendationData.recommendation.BMR}</p>
+              <p>
+                Minimum Calories:{" "}
+                {recommendationData.recommendation.minimum_calories}
+              </p>
+              <p>
+                Recommended Calories:{" "}
+                {recommendationData.recommendation.recommended_calories}
+              </p>
+              <p>
+                Protein Required:{" "}
+                {recommendationData.recommendation.protein_required}
+              </p>
+              <p>
+                Fat Required: {recommendationData.recommendation.fat_required}
+              </p>
+              <p>
+                Carbs Required:{" "}
+                {recommendationData.recommendation.carbs_required}
+              </p>
+              <p>
+                Sleep Recommended:{" "}
+                {recommendationData.recommendation.sleep_recommeded}
+              </p>
+            </div>
+          </div>
+          <div>
+            <h3>Todays Steps</h3>
+            <div style={{ "font-size": "2em", "font-weight": "bold" }}>
+              {history[history.length - 1].steps}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
