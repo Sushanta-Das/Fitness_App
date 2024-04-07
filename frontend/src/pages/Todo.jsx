@@ -41,9 +41,8 @@ function Todo() {
 
   return (
     <div className="container">
-      <div className="form">
+      <div className="form" style={{gap:'1.3vh'}}>
         <h2> Enter the counts of the exercises: </h2>
-        <br />
         {todoList.map((item) => {
           return (
             <div>

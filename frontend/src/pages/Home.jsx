@@ -8,7 +8,7 @@ function Home() {
       <h1> Wecome to Fitness WebApp </h1>
       <div className="form">
         <div>
-          New to this webapp? <br /> Please create an account.
+          New to this webapp? <br /> Please create an account.<br/><br/>
           <button className="btn" onClick={() => navigate("/signup")}>
             {" "}
             Signup{" "}

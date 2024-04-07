@@ -39,7 +39,7 @@ app.post("/signup", async function(req, res) {
 
     var exerciseList = [];
     exercisesObject.map((item) => {
-        exerciseList.push(item.name);
+        exerciseList.push(`${item.name} (Target:${item.Target}, ${item.No} times)`);
     })
     
     /*if (weight < 60) {
@@ -52,7 +52,7 @@ app.post("/signup", async function(req, res) {
         exerciseList
     )
 })
-
+ 
 
 app.post("/level", async function(req, res) {
     const levelInfo = req.body;
