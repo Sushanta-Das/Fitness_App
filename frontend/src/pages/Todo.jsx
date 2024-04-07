@@ -40,10 +40,10 @@ function Todo() {
   }
 
   return (
-    <div className="total-content">
-      <h1> Update Exercise Count and Sleep Timer </h1>
-      <div className="box">
-        Enter the counts of the exercises: <br />
+    <div className="container">
+      <div className="form">
+        <h2> Enter the counts of the exercises: </h2>
+        <br />
         {todoList.map((item) => {
           return (
             <div>
@@ -57,6 +57,7 @@ function Todo() {
           );
         })}
         <button
+          className="btn"
           onClick={() => {
             fetch("http://localhost:3000/todo", {
               method: "POST",
@@ -78,6 +79,7 @@ function Todo() {
         </button>{" "}
         <br /> <br />
         <button
+          className="btn"
           onClick={() => {
             fetch("http://localhost:3000/sleep", {
               method: "POST",
@@ -100,6 +102,7 @@ function Todo() {
         </button>{" "}
         <br /> <br />
         <button
+          className="btn"
           onClick={() => {
             navigate("/signup/level/todo/history", { state: { email } });
           }}
