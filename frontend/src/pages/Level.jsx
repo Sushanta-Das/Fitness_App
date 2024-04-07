@@ -20,38 +20,41 @@ function Level() {
     }
 
     return (
-        <div>                       
-            Choose your goal: <input list="goal" onChange={(e) => { setTargetLevel(e.target.value) }} />
-                <datalist id="goal">                    
-                    <option value="Basic"> Fit for Daily Work </option>
-                    <option value="Intermediate"> Top 30% </option>
-                    <option value="Advance"> Top 5% </option>
-                </datalist> <br />                
+        <div className="total-content">
+            <h1> Exercise List </h1>
+            <div className="box">                       
+                Choose your goal: <input list="goal" onChange={(e) => { setTargetLevel(e.target.value) }} />
+                    <datalist id="goal">                    
+                        <option value="Basic"> Fit for Daily Work </option>
+                        <option value="Intermediate"> Top 30% </option>
+                        <option value="Advance"> Top 5% </option>
+                    </datalist> <br /> <br />                
 
-            Choose your preferred exercises: <br />
-                {state.exerciseList.map((item) => {
-                    return <div>
-                        <input type="checkbox" onChange={(e) => handleOnChange(e.target.checked, item)} /> {item}
-                    </div>
-                })}
+                Choose your preferred exercises: <br /> <br />
+                    {state.exerciseList.map((item) => {
+                        return <div>
+                            <input type="checkbox" onChange={(e) => handleOnChange(e.target.checked, item)} /> {item}
+                        </div>
+                    })} <br /> <br /> <br />
 
-            <button onClick={() => {
-                fetch("http://localhost:3000/level", {
-                    method: "POST",
-                    body: JSON.stringify({
-                        targetLevel: targetLevel,
-                        selectedExerciseList: selectedExerciseList,
-                        email: email
-                    }),
-                    headers: {
-                        "content-type": "application/json"
-                    }
-                })
-                    .then(async function(res) {
-                        const todoList = await res.json();                      
-                        navigate("/signup/level/todo", { state: { todoList, email } });
+                <button onClick={() => {
+                    fetch("http://localhost:3000/level", {
+                        method: "POST",
+                        body: JSON.stringify({
+                            targetLevel: targetLevel,
+                            selectedExerciseList: selectedExerciseList,
+                            email: email
+                        }),
+                        headers: {
+                            "content-type": "application/json"
+                        }
                     })
-            }}> Submit </button>
+                        .then(async function(res) {
+                            const todoList = await res.json();                      
+                            navigate("/signup/level/todo", { state: { todoList, email } });
+                        })
+                }}> Submit </button>
+            </div>
         </div>
     )
 }

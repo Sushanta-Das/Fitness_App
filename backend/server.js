@@ -122,7 +122,8 @@ app.post("/todo", async function(req, res) {
     const currentOffset = currentTime.getTimezoneOffset();
     const ISIOffset = 330; // UTC +5:30
     const ISTTime = new Date(currentTime.getTime() + ISIOffset*60000);
-    console.log(ISTTime);
+    const ISTTimeTemp = new Date(currentTime.getTime() + ISIOffset*60000);
+    console.log(ISTTime);    
 
     const currentTime2 = new Date();    
     const ISIOffset2 = 330; // UTC +5:30
@@ -148,13 +149,14 @@ app.post("/todo", async function(req, res) {
         var lastElement = historyArray[historyArray.length-1];
         var lastDate = lastElement.date;
 
-        if (lastDate >= ISTTime.setHours(0, 0, 0) && lastDate < tomorrow) {
+        if (lastDate >= ISTTimeTemp.setHours(0, 0, 0) && lastDate < tomorrow) {
             historyArray[historyArray.length-1].calorieBurnt = totalCalorie;
         }
         else {
             historyArray.push({ date: ISTTime, calorieBurnt: totalCalorie, sleepDurationMinutes: 0 });
         }
     }
+    console.log(ISTTime);
     
     await userActivity.updateOne({
         email: email
