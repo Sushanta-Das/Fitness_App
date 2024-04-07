@@ -274,7 +274,7 @@ app.post("/sleep", async function(req, res) {
                 historyArray[historyArray.length-2].sleepDurationMinutes = sleepDurationMinutes;
             }
             else {
-                historyArray.splice(historyArray.length-1, 0,  { date: yesterday, calorieBurnt: 0, steps: 0,sleepDurationMinutes: sleepDurationMinutes }); // inserts before the last element
+                historyArray.splice(historyArray.length-1, 0,  { date: yesterday, calorieBurnt: 0,exerciseCompleted:0, steps: 0,sleepDurationMinutes: sleepDurationMinutes }); // inserts before the last element
             }
         }
         
