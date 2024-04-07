@@ -249,7 +249,7 @@ app.post("/sleep", async function(req, res) {
                 historyArray[historyArray.length-2].sleepDurationMinutes = sleepDurationMinutes;
             }
             else {
-                historyArray.splice(historyArray.length-1, 0, { date: yesterday, calorieBurnt: 0, sleepDurationMinutes: sleepDurationMinutes }); // inserts before the last element
+                historyArray.splice(historyArray.length-1, 0, { date: yesterday, calorieBurnt: 0,exerciseCompleted:0, sleepDurationMinutes: sleepDurationMinutes }); // inserts before the last element
             }
         }
         
@@ -325,18 +325,114 @@ app.post("/login", async function(req, res) {
     })
 })
 
+function BMR(weight, height, age, gender) {
+    //    #ref BMR https://www.medicalnewstoday.com/articles/319731#calculating-daily-calorie-burn
+    // ref protein https://www.acsm.org/docs/default-source/files-for-resource-library/protein-intake-for-optimal-muscle-maintenance.pdf
+    height *= 0.3048; // height in meters
+    let xy = 9.65 * weight + 573 * height - 5.08 * age + 260;
+    let xx = 7.38 * weight + 607 * height - 2.31 * age + 43;
+    if (gender.toLowerCase() === 'male') return xy;
+    else if (gender.toLowerCase() === 'female') return xx;
+    else return (xx + xy) / 2;
+}
+function get_sleep(age) {
+    if (age<=13) {
+        return "9 - 11 hours"
+    }
+    else if (age<=17) {
+        return "8 - 10 hours"
+    }
+    else if (age<=64) {
+        return "7 - 9 hours"
+    }
+    else if (age>=65) {
+        return "7 - 8 hours"
+    }
+}
+function maintainance_cal(weight, height, age, gender, active, cal_walking) {
+    //    #ref BMR https://www.medicalnewstoday.com/articles/319731#calculating-daily-calorie-burn
+    let bmr = Math.round(BMR(weight, height, age, gender));
+    // console.log("BMR 2 =", bmr);
+    let cal = (bmr + cal_walking) * 1.2;
+    if (1 <= active && active < 3) cal = bmr * 1.37;
+    else if (3 <= active && active <= 5) cal = bmr * 1.55;
+    else if (6 <= active && active <= 7) cal = bmr * 1.725;
+    else if (active > 7) cal = bmr * 1.9;
+    let protien_points = Math.min(cal / bmr, 2);
+    // console.log(protien_points);
+    let carbs_min = Math.min(bmr * 1.2 - 0.8 * weight * 4 - cal * 0.25, cal - protien_points * weight * 4 - cal * 0.3); // cal
+    let carbs_max = Math.max(bmr * 1.2 - 0.8 * weight * 4 - cal * 0.25, cal - protien_points * weight * 4 - cal * 0.3); // cal
+    let dic = {
+        'BMR': `${Math.round(bmr)} cal`,
+        'minimum_calories': `${Math.round(bmr * 1.2)} cal`,
+        'recommended_calories': `${Math.round(cal)} cal`,
+        'protein_required': `${Math.round(0.8 * weight)} - ${Math.round(protien_points * weight)} gram`,
+        'fat_required': `${Math.round(cal * 0.25 / 9)} - ${Math.round(cal * 0.3 / 9)} gram`,
+        'carbs_required': `${Math.round(carbs_min / 4)} - ${Math.round(carbs_max / 4)} gram`,
+        'sleep_recommeded':get_sleep(age)
+    };
+    return dic;
+}
 
-app.get("/weekly", async function(req, res) {
+
+
+
+app.get("/recommendation", async function(req, res) {
     const email = req.body.email;
+    // user
+    const profile= await user.findOne({
+        email: email
+    });
+    var activityWeightage=1;
+    switch ((profile.currentState).toLowerCase()) {
+        case "beginner":
+            activityWeightage=.8; 
+            break;
+        case "intermediate":
+            activityWeightage=1.25;
+            break;
+        case "advanced":
+            activityWeightage=1.5
+            break;
+        default:
+            break;
+    }
+    // console.log(profile)
 
+    // activity
     const userActivityEntry = await userActivity.findOne({
         email: email
     })
+    var history=userActivityEntry.history
+    if (history.length>7) {
+        history=history.slice(-7)
+    }
+    const totalExerciseCompleted = Math.round((history.reduce((total, entry) => total + entry.exerciseCompleted, 0))/100);
+    // console.log(totalExerciseCompleted)
+    //adding foot step calories
+    // https://caloriesburnedhq.com/steps-to-calories/
+    var step_calories=10 // assume each person walks atleast 300 steps a day
+    try{
+        step_calories=6*((history.slice(-1))[0].footStep /100) *(profile.height/6)*(profile.weight/100);
+        if (!step_calories) {
+            step_calories=10
+        }
+    }
+    catch (error){step_calories=10}
     
+    // getting recommendation
+    recommendation=maintainance_cal(profile.weight, profile.height, profile.age, profile.gender, totalExerciseCompleted*activityWeightage, step_calories);
     res.json(
-        userActivityEntry.history
+        {"user":profile,
+        "state":profile.currentState,
+        "calories_in_walking":step_calories,
+        "workdays":totalExerciseCompleted,
+        "recommendation":recommendation}
     )
-})
+    // res.json(
+    //     step_calories
+    // )
+}) 
 
 app.listen(3000, (error) => {
     if(!error){

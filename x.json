@@ -1,0 +1,151 @@
+{
+    "_id": {
+      "$oid": "66127253e6279442ac22849f"
+    },
+    "email": "b@b.b",
+    "history": [
+      {
+        "date": {
+          "$date": "2024-04-06T00:00:00.915Z"
+        },
+        "calorieBurnt": 0,
+        "sleepDurationMinutes": 1.4868666666666666,
+        "_id": {
+          "$oid": "661272bde6279442ac22868e"
+        }
+      },
+      {
+        "date": {
+          "$date": "2024-04-07T15:46:02.573Z"
+        },
+        "calorieBurnt": 570,
+        "exerciseCompleted": 70,
+        "sleepDurationMinutes": 0,
+        "_id": {
+          "$oid": "66127262e6279442ac2285d3"
+        }
+      },
+      {
+        "date": {
+          "$date": "2024-04-08T15:46:02.573Z"
+        },
+        "calorieBurnt": 570,
+        "exerciseCompleted": 70,
+        "sleepDurationMinutes": 0,
+        "_id": {
+          "$oid": "66127262e6279442ac2285d3"
+        }
+      },
+      {
+        "date": {
+          "$date": "2024-04-09T15:46:02.573Z"
+        },
+        "calorieBurnt": 570,
+        "exerciseCompleted": 70,
+        "sleepDurationMinutes": 0,
+        "_id": {
+          "$oid": "66127262e6279442ac2285d3"
+        }
+      },
+      {
+        "date": {
+          "$date": "2024-04-10T15:46:02.573Z"
+        },
+        "calorieBurnt": 570,
+        "exerciseCompleted": 70,
+        "sleepDurationMinutes": 0,
+        "_id": {
+          "$oid": "66127262e6279442ac2285d3"
+        }
+      },
+      {
+        "date": {
+          "$date": "2024-04-11T15:46:02.573Z"
+        },
+        "calorieBurnt": 570,
+        "exerciseCompleted": 70,
+        "sleepDurationMinutes": 0,
+        "_id": {
+          "$oid": "66127262e6279442ac2285d3"
+        }
+      },
+      {
+        "date": {
+          "$date": "2024-04-12T15:46:02.573Z"
+        },
+        "calorieBurnt": 570,
+        "exerciseCompleted": 70,
+        "sleepDurationMinutes": 0,
+        "_id": {
+          "$oid": "66127262e6279442ac2285d3"
+        }
+      },
+      {
+        "date": {
+          "$date": "2024-04-13T15:46:02.573Z"
+        },
+        "calorieBurnt": 570,
+        "exerciseCompleted": 70,
+        "sleepDurationMinutes": 0,
+        "_id": {
+          "$oid": "66127262e6279442ac2285d3"
+        }
+      },
+      {
+        "date": {
+          "$date": "2024-04-14T15:46:02.573Z"
+        },
+        "calorieBurnt": 570,
+        "exerciseCompleted": 70,
+        "sleepDurationMinutes": 0,
+        "_id": {
+          "$oid": "66127262e6279442ac2285d3"
+        }
+      },
+      {
+        "date": {
+          "$date": "2024-04-15T15:46:02.573Z"
+        },
+        "calorieBurnt": 570,
+        "exerciseCompleted": 70,
+        "sleepDurationMinutes": 0,
+        "_id": {
+          "$oid": "66127262e6279442ac2285d3"
+        }
+      },
+      {
+        "date": {
+          "$date": "2024-04-16T15:46:02.573Z"
+        },
+        "calorieBurnt": 570,
+        "exerciseCompleted": 70,
+        "sleepDurationMinutes": 0,
+        "_id": {
+          "$oid": "66127262e6279442ac2285d3"
+        }
+      },
+      {
+        "date": {
+          "$date": "2024-04-17T15:46:02.573Z"
+        },
+        "calorieBurnt": 570,
+        "exerciseCompleted": 70,
+        "sleepDurationMinutes": 0,
+        "_id": {
+          "$oid": "66127262e6279442ac2285d3"
+        }
+      },
+      {
+        "date": {
+          "$date": "2024-04-18T15:46:02.573Z"
+        },
+        "calorieBurnt": 570,
+        "exerciseCompleted": 70,
+        "sleepDurationMinutes": 0,
+        "_id": {
+          "$oid": "66127262e6279442ac2285d3"
+        }
+      }
+    ],
+    "__v": 0
+  }
