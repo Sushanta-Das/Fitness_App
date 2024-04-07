@@ -128,23 +128,28 @@ function History() {
       <h1> Activities </h1>
       <div
         className="box activityBox"
-        style={{ display: "flex", flexWrap: "wrap" }}
+        style={{ display: "flex", flexDirection: "column", gap: "10vh" }}
       >
-        <div style={{ width: "31vw" ,height:"38vh"}}>
-          <h2>Daily Steps</h2>
-          <Line data={stepsData} />
+        <div className="chart" style={{ display: "flex", flexWrap: "wrap" }}>
+          <div style={{ width: "31vw", height: "38vh" }}>
+            <h2>Daily Steps</h2>
+            <Line data={stepsData} />
+          </div>
+          <div style={{ width: "31vw", height: "38vh", padding: "0" }}>
+            <h2>Sleep Duration</h2>
+            <Line data={sleepDurationData} />
+          </div>
+          <div style={{ width: "31vw", height: "38vh" }}>
+            <h2>Exercise Completion (%)</h2>
+            <Line data={exerciseCompletionData} />
+          </div>
         </div>
-        <div style={{ width: "31vw" ,height:"38vh",padding:'0'}}>
-          <h2>Sleep Duration</h2>
-          <Line data={sleepDurationData} />
+        <div>
+          {" "}
+          <button className="btn" onClick={openModal}>
+            Guidance
+          </button>
         </div>
-        <div style={{ width: "31vw" ,height:"38vh"}}>
-          <h2>Exercise Completion (%)</h2>
-          <Line data={exerciseCompletionData} />
-        </div>
-        <button className="btn" onClick={openModal}>
-          Guidance
-        </button>
       </div>
 
       {modal && (

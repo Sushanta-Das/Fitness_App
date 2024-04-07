@@ -1,18 +1,19 @@
 html, body {
     margin: 0;   
     min-height: 100%;
+    overflow-x: hidden;
 }
 
 #root {
-    height: 100vh;
-    width: 100vw;
-    padding: 0;
-    background-image: url("./assets/image/pushup.jpg");
-    background-color: #cccccc;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    position: relative;    
+width: 100vw;
+  padding: 0;
+  background-image: url("/src/assets/image/pushup.jpg");
+  background-color: #cccccc;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  background-attachment: fixed; 
 }
 
 .total-content {
@@ -55,7 +56,7 @@ td {
 .Modal{
   max-height: 90vh;
   position: fixed;
-  top: 15vh;
+  top: 11vh;
   background: rgba(255, 255, 255,0.97);
   padding: 4vw;
   box-shadow: 4px 4px 10px 10px rgba(0, 0, 0, 0.3);
@@ -96,9 +97,10 @@ justify-content: center;}
     justify-content: space-around;
     align-items: center;
     width: 100vw;
-    height: 100vh;
-    max-height: 100vh;
-    overflow-y: hidden;
+   height: 100vh;
+    /* max-height: 100vh;  */
+    overflow: auto;
+   
   }
   .form{
     
@@ -111,5 +113,6 @@ justify-content: center;}
   border-radius: 16px;
   justify-content: center;
   font-size: 1.3em;
-  overflow-y: hidden;
+  
+ 
   }
