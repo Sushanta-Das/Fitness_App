@@ -286,7 +286,7 @@ app.post("/history", async function(req, res) {
         userActivityEntry.history
     )
 })
-
+ 
 app.post("/login", async function(req, res) {
     const email = req.body.email;
     const password = req.body.password;
