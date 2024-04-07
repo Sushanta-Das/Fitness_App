@@ -353,11 +353,53 @@ app.post("/login", async function(req, res) {
 
 app.get("/weekly", async function(req, res) {
     const email = req.body.email;
-
-    const userActivityEntry = await userActivity.findOne({
+    // user
+    const profile= await user.findOne({
         email: email
-    })
+    });
+    var activityWeightage=1;
+    switch ((profile.currentState).toLowerCase()) {
+        case "beginner":
+            activityWeightage=.8; 
+            break;
+        case "intermediate":
+            activityWeightage=1.25;
+            break;
+        case "advanced":
+            activityWeightage=1.5
+            break;
+        default:
+            break;
+    }
+    // console.log(profile)
+
+    // activity
+    const userActivityEntry = await userActivity.findOne({
+        email: email,
+        'history.date': { $gte: sevenDaysAgo, $lte: currentDate }
+    }).sort({ 'history.date': -1 });
     
+    
+    var history=userActivityEntry.history
+    if (history.length>7) {
+        history=history.slice(-7)
+    }
+    console.log(history);
+    const totalExerciseCompleted = Math.round((history.reduce((total, entry) => total + entry.exerciseCompleted, 0))/100);
+    // console.log(totalExerciseCompleted)
+    //adding foot step calories
+    // https://caloriesburnedhq.com/steps-to-calories/
+    var step_calories=10 // assume each person walks atleast 300 steps a day
+    try{
+        step_calories=6*((history.slice(-1))[0].footStep /100) *(profile.height/6)*(profile.weight/100);
+        if (!step_calories) {
+            step_calories=10
+        }
+    }
+    catch (error){step_calories=10}
+    
+    // getting recommendation
+    recommendation=maintainance_cal(profile.weight, profile.height, profile.age, profile.gender, totalExerciseCompleted*activityWeightage, step_calories);
     res.json(
         userActivityEntry.history
     )
