@@ -349,9 +349,59 @@ app.post("/login", async function(req, res) {
         todoList
     })
 })
+function BMR(weight, height, age, gender) {
+    //    #ref BMR https://www.medicalnewstoday.com/articles/319731#calculating-daily-calorie-burn
+    // ref protein https://www.acsm.org/docs/default-source/files-for-resource-library/protein-intake-for-optimal-muscle-maintenance.pdf
+    height *= 0.3048; // height in meters
+    let xy = 9.65 * weight + 573 * height - 5.08 * age + 260;
+    let xx = 7.38 * weight + 607 * height - 2.31 * age + 43;
+    if (gender.toLowerCase() === 'male') return xy;
+    else if (gender.toLowerCase() === 'female') return xx;
+    else return (xx + xy) / 2;
+}
+function get_sleep(age) {
+    if (age<=13) {
+        return "9 - 11 hours"
+    }
+    else if (age<=17) {
+        return "8 - 10 hours"
+    }
+    else if (age<=64) {
+        return "7 - 9 hours"
+    }
+    else if (age>=65) {
+        return "7 - 8 hours"
+    }
+}
+function maintainance_cal(weight, height, age, gender, active, cal_walking) {
+    //    #ref BMR https://www.medicalnewstoday.com/articles/319731#calculating-daily-calorie-burn
+    let bmr = Math.round(BMR(weight, height, age, gender));
+    // console.log("BMR 2 =", bmr);
+    let cal = (bmr + cal_walking) * 1.2;
+    if (1 <= active && active < 3) cal = bmr * 1.37;
+    else if (3 <= active && active <= 5) cal = bmr * 1.55;
+    else if (6 <= active && active <= 7) cal = bmr * 1.725;
+    else if (active > 7) cal = bmr * 1.9;
+    let protien_points = Math.min(cal / bmr, 2);
+    // console.log(protien_points);
+    let carbs_min = Math.min(bmr * 1.2 - 0.8 * weight * 4 - cal * 0.25, cal - protien_points * weight * 4 - cal * 0.3); // cal
+    let carbs_max = Math.max(bmr * 1.2 - 0.8 * weight * 4 - cal * 0.25, cal - protien_points * weight * 4 - cal * 0.3); // cal
+    let dic = {
+        'BMR': `${Math.round(bmr)} cal`,
+        'minimum_calories': `${Math.round(bmr * 1.2)} cal`,
+        'recommended_calories': `${Math.round(cal)} cal`,
+        'protein_required': `${Math.round(0.8 * weight)} - ${Math.round(protien_points * weight)} gram`,
+        'fat_required': `${Math.round(cal * 0.25 / 9)} - ${Math.round(cal * 0.3 / 9)} gram`,
+        'carbs_required': `${Math.round(carbs_min / 4)} - ${Math.round(carbs_max / 4)} gram`,
+        'sleep_recommeded':get_sleep(age)
+    };
+    return dic;
+}
 
 
-app.get("/weekly", async function(req, res) {
+
+
+app.post("/recommendation", async function(req, res) {
     const email = req.body.email;
     // user
     const profile= await user.findOne({
@@ -374,17 +424,23 @@ app.get("/weekly", async function(req, res) {
     // console.log(profile)
 
     // activity
+    const currentDate = new Date();
+    const sevenDaysAgo = new Date(currentDate);
+    sevenDaysAgo.setDate(currentDate.getDate() - 7);
+    console.log(sevenDaysAgo, currentDate)
     const userActivityEntry = await userActivity.findOne({
         email: email,
-        'history.date': { $gte: sevenDaysAgo, $lte: currentDate }
+        
     }).sort({ 'history.date': -1 });
     
+    const filteredHistory = userActivityEntry.history.filter(entry => entry.date >= sevenDaysAgo && entry.date <= currentDate);
+    // console.log(filteredHistory);
     
-    var history=userActivityEntry.history
+    var history=filteredHistory
     if (history.length>7) {
         history=history.slice(-7)
     }
-    console.log(history);
+    console.log(history)
     const totalExerciseCompleted = Math.round((history.reduce((total, entry) => total + entry.exerciseCompleted, 0))/100);
     // console.log(totalExerciseCompleted)
     //adding foot step calories
@@ -401,10 +457,16 @@ app.get("/weekly", async function(req, res) {
     // getting recommendation
     recommendation=maintainance_cal(profile.weight, profile.height, profile.age, profile.gender, totalExerciseCompleted*activityWeightage, step_calories);
     res.json(
-        userActivityEntry.history
+        {"user":profile,
+        "state":profile.currentState,
+        "calories_in_walking":step_calories,
+        "net_workdays":totalExerciseCompleted,
+        "recommendation":recommendation}
     )
-})
-
+    // res.json(
+    //     step_calories
+    // )
+}) 
 app.listen(3000, (error) => {
     if(!error){
         console.log("Server is running on port 3000.");

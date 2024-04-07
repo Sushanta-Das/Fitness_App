@@ -22,6 +22,7 @@ function History() {
   const navigate = useNavigate();
   const { state } = useLocation();
   const [history, setHistory] = useState([]);
+  const [recommendationData, setRecommendationData] = useState(null);
   const email = state.email;
 
   useEffect(() => {
@@ -36,6 +37,19 @@ function History() {
     }).then(async function (res) {
       const history = await res.json();
       setHistory(history);
+    });
+
+    fetch("http://localhost:3000/recommendation", {
+      method: "POST",
+      body: JSON.stringify({
+        email: email,
+      }),
+      headers: {
+        "content-type": "application/json",
+      },
+    }).then(async function (res) {
+      const recommendationData = await res.json();
+      setRecommendationData(recommendationData);
     });
   }, []);
 
@@ -97,6 +111,11 @@ function History() {
     ],
   };
 
+  const openModal = () => {
+    // Implement your modal logic here
+    console.log(recommendationData);
+  };
+
   return (
     <div className="total-content">
       <h1> Activities </h1>
@@ -114,6 +133,7 @@ function History() {
           <Line data={exerciseCompletionData} />
         </div>
       </div>
+      <button onClick={openModal}>Open Modal</button>
     </div>
   );
 }
