@@ -108,8 +108,10 @@ app.post("/todo", async function(req, res) {
     var exerciseNo=0;
     async function processExercise(item) {
         selectedExercise.push({ name: item[0], count: item[1].count });
-    
-        const eachExercise = await exercises.findOne({ name: item[0] });
+      console.log(item[0], item[1].count);
+
+        const exerciseName =item[0].split('(')[0].trim();
+        const eachExercise = await exercises.findOne({ name: exerciseName });
         exerciseNo += 1;
         // console.log(item[0], item[1].count, eachExercise.No, eachExercise.Set)
         try{exerciseDone += (item[1].count / (eachExercise.No * eachExercise.Set)); // in percentage

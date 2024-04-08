@@ -1,0 +1,121 @@
+{
+  "email": "h@h.h",
+  "history": [
+    {
+      "date": {
+        "$date": "2024-04-06T00:00:00.915Z"
+      },
+      "calorieBurnt": 0,
+      "sleepDurationMinutes": 420,
+      "steps": 1000
+    },
+    {
+      "date": {
+        "$date": "2024-04-07T15:46:02.573Z"
+      },
+      "calorieBurnt": 570,
+      "exerciseCompleted": 70,
+      "sleepDurationMinutes": 400,
+      "steps": 5000
+    },
+    {
+      "date": {
+        "$date": "2024-04-08T15:46:02.573Z"
+      },
+      "calorieBurnt": 570,
+      "exerciseCompleted": 80,
+      "sleepDurationMinutes": 480,
+      "steps": 800
+    },
+    {
+      "date": {
+        "$date": "2024-04-09T15:46:02.573Z"
+      },
+      "calorieBurnt": 570,
+      "exerciseCompleted": 70,
+      "sleepDurationMinutes": 380,
+      "steps": 5000
+    },
+    {
+      "date": {
+        "$date": "2024-04-10T15:46:02.573Z"
+      },
+      "calorieBurnt": 570,
+      "exerciseCompleted": 50,
+      "sleepDurationMinutes": 400,
+      "steps": 3000
+    },
+    {
+      "date": {
+        "$date": "2024-04-11T15:46:02.573Z"
+      },
+      "calorieBurnt": 570,
+      "exerciseCompleted": 80,
+      "sleepDurationMinutes": 200,
+      "steps": 3000
+    },
+    {
+      "date": {
+        "$date": "2024-04-12T15:46:02.573Z"
+      },
+      "calorieBurnt": 570,
+      "exerciseCompleted": 90,
+      "sleepDurationMinutes": 500,
+      "steps": 4000
+    },
+    {
+      "date": {
+        "$date": "2024-04-13T15:46:02.573Z"
+      },
+      "calorieBurnt": 570,
+      "exerciseCompleted": 100,
+      "sleepDurationMinutes": 400,
+      "steps": 1000
+    },
+    {
+      "date": {
+        "$date": "2024-04-14T15:46:02.573Z"
+      },
+      "calorieBurnt": 570,
+      "exerciseCompleted": 90,
+      "sleepDurationMinutes": 300,
+      "steps": 4000
+    },
+    {
+      "date": {
+        "$date": "2024-04-15T15:46:02.573Z"
+      },
+      "calorieBurnt": 570,
+      "exerciseCompleted": 67,
+      "sleepDurationMinutes": 290,
+      "steps": 2000
+    },
+    {
+      "date": {
+        "$date": "2024-04-16T15:46:02.573Z"
+      },
+      "calorieBurnt": 570,
+      "exerciseCompleted": 76,
+      "sleepDurationMinutes": 600,
+      "steps": 3000
+    },
+    {
+      "date": {
+        "$date": "2024-04-17T15:46:02.573Z"
+      },
+      "calorieBurnt": 570,
+      "exerciseCompleted": 87,
+      "sleepDurationMinutes": 400,
+      "steps": 4000
+    },
+    {
+      "date": {
+        "$date": "2024-04-18T15:46:02.573Z"
+      },
+      "calorieBurnt": 570,
+      "exerciseCompleted": 90,
+      "sleepDurationMinutes": 420,
+      "steps": 1000
+    }
+  ]
+}
