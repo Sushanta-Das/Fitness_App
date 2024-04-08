@@ -182,9 +182,13 @@ function History() {
               {/* <p>Cosistency: {recommendationData.consistency}</p> */}
               <div>
               <h3>Your Todays Steps</h3>
-              <div style={{ "font-size": "2em", "font-weight": "bold" }}>
-                {history[history.length - 1].steps}
-              </div>
+              
+                {(history[(history.length - 1)]) &&(
+                  <div style={{ "font-size": "2em", "font-weight": "bold" }}>
+                  {history[history.length - 1].steps}
+                  </div>
+                )} 
+              
             </div>
             </div>
             <div>

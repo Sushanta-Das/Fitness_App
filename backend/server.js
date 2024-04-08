@@ -339,9 +339,14 @@ app.post("/login", async function(req, res) {
                 email: email
             })
 
-            exercisesCountEntry.selectedExercise.map((item) => {
-                todoList.push(item.name);
-            })
+            
+            try {
+                exercisesCountEntry.selectedExercise.map((item) => {
+                    todoList.push(item.name);
+                })
+            } catch (error) {
+                1
+            } 
         }
         else {
             validEmailPassword.push(true);
