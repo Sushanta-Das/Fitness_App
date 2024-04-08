@@ -40,8 +40,8 @@ function Todo() {
   }
 
   return (
-    <div className="container">
-      <div className="form" style={{gap:'1.3vh'}}>
+    <div className="container" style={{ height: "auto" }}>
+      <div className="form" style={{ gap: "1.3vh" }}>
         <h2> Enter the counts of the exercises: </h2>
         {todoList.map((item) => {
           return (
