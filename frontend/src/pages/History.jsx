@@ -179,6 +179,13 @@ function History() {
               <p>Height: {recommendationData.user.height}</p>
               <p>Weight: {recommendationData.user.weight}</p>
               <p>Current State: {recommendationData.user.currentState}</p>
+              {/* <p>Cosistency: {recommendationData.consistency}</p> */}
+              <div>
+              <h3>Your Todays Steps</h3>
+              <div style={{ "font-size": "2em", "font-weight": "bold" }}>
+                {history[history.length - 1].steps}
+              </div>
+            </div>
             </div>
             <div>
               <h3>Recommendation</h3>
@@ -206,14 +213,24 @@ function History() {
                 Sleep Recommended:{" "}
                 {recommendationData.recommendation.sleep_recommeded}
               </p>
+              <div>
+              <h3>Consistency Rating</h3>
+              <div style={{ "font-size": "2em", "font-weight": "bold" }}>
+                {recommendationData.consistency}
+              </div>
             </div>
-          </div>
-          <div>
-            <h3>Todays Steps</h3>
-            <div style={{ "font-size": "2em", "font-weight": "bold" }}>
-              {history[history.length - 1].steps}
             </div>
+            
           </div>
+          {/* <div style={{display:"flex",justifyContent:"space-between"}}>
+            <div>
+              <h3>Todays Steps</h3>
+              <div style={{ "font-size": "2em", "font-weight": "bold" }}>
+                {history[history.length - 1].steps}
+              </div>
+            </div>
+
+          </div> */}
         </div>
       )}
     </div>

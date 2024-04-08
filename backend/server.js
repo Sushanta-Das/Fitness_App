@@ -112,9 +112,12 @@ app.post("/todo", async function(req, res) {
         const eachExercise = await exercises.findOne({ name: item[0] });
         exerciseNo += 1;
         // console.log(item[0], item[1].count, eachExercise.No, eachExercise.Set)
-        exerciseDone += (item[1].count / (eachExercise.No * eachExercise.Set)); // in percentage
+        try{exerciseDone += (item[1].count / (eachExercise.No * eachExercise.Set)); // in percentage
         // console.log(exerciseDone);
-        totalCalorie += item[1].count * eachExercise.value;
+        totalCalorie += item[1].count * eachExercise.value;}
+        catch (e){
+            console.log("No not found error")
+        }
     }
     const promises = Object.entries(selectedExerciseCount).map(processExercise);
     await Promise.all(promises);
@@ -407,16 +410,16 @@ app.post("/recommendation", async function(req, res) {
     const profile= await user.findOne({
         email: email
     });
-    var activityWeightage=1;
+    var stateWeightage=1;
     switch ((profile.currentState).toLowerCase()) {
         case "beginner":
-            activityWeightage=.8; 
+            stateWeightage=.9; 
             break;
         case "intermediate":
-            activityWeightage=1.25;
+            stateWeightage=1;
             break;
         case "advanced":
-            activityWeightage=1.5
+            stateWeightage=1.1
             break;
         default:
             break;
@@ -432,38 +435,54 @@ app.post("/recommendation", async function(req, res) {
         email: email,
         
     }).sort({ 'history.date': -1 });
-    
-    const filteredHistory = userActivityEntry.history.filter(entry => entry.date >= sevenDaysAgo && entry.date <= currentDate);
+     
+    // const filteredHistory = userActivityEntry.history;
+    const filteredHistory = userActivityEntry.history.filter(entry => entry.date >= sevenDaysAgo && entry.date <= currentDate && 
+        entry.exerciseCompleted>=0);
     // console.log(filteredHistory);
-    
     var history=filteredHistory
-    if (history.length>7) {
-        history=history.slice(-7)
-    }
     console.log(history)
     const totalExerciseCompleted = Math.round((history.reduce((total, entry) => total + entry.exerciseCompleted, 0))/100);
+    var exercise_no_weightage=1;
+    const userExercise = await exercisesCount.findOne({
+        email: email,
+    })
+    try {
+        exercise_no_weightage=(userExercise.selectedExercise.length)/12 ;//as avg(10-16)=12
+    } catch (error) {
+        console.log("exercise not selected")
+    }
+    // console.log("ex=",totalExerciseCompleted,)
     // console.log(totalExerciseCompleted)
     //adding foot step calories
     // https://caloriesburnedhq.com/steps-to-calories/
     var step_calories=10 // assume each person walks atleast 300 steps a day
     try{
         step_calories=6*((history.slice(-1))[0].footStep /100) *(profile.height/6)*(profile.weight/100);
-        if (!step_calories) {
+        if (!step_calories) { 
             step_calories=10
         }
     }
     catch (error){step_calories=10}
     
     // getting recommendation
-    recommendation=maintainance_cal(profile.weight, profile.height, profile.age, profile.gender, totalExerciseCompleted*activityWeightage, step_calories);
+    var consistency=totalExerciseCompleted*stateWeightage*exercise_no_weightage;
+    if (consistency>10) {
+        consistency=10;
+    }else if(! consistency){
+        consistency=0;
+    }
+    recommendation=maintainance_cal(profile.weight, profile.height, profile.age, profile.gender, consistency, step_calories);
+    console.log("Net days ",consistency," for ",email)
     res.json(
         {"user":profile,
         "state":profile.currentState,
         "calories_in_walking":step_calories,
         "net_workdays":totalExerciseCompleted,
+        "consistency":`${consistency.toFixed(1)}/10`,
         "recommendation":recommendation}
     )
-    // res.json(
+    // res.json( 
     //     step_calories
     // )
 }) 

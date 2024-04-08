@@ -23,7 +23,7 @@ function Level() {
   return (
     <div className="container" style={{ height: "auto" }}>
       <div className="form" >
-        Choose your preferred exercises: <br />
+        Choose your preferred exercises (10-16 recommended): <br />
         {state.exerciseList.map((item) => {
           return (
             <div>

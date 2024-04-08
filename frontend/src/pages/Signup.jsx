@@ -89,7 +89,7 @@ function Signup() {
         </div>
         <div>
           {" "}
-          <label>Current State: </label>
+          <label>Goal State: </label>
           <input
             list="state"
             style={{ marginBottom: "4px", padding: "5px" }}
