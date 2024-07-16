@@ -1,19 +1,10 @@
-## Create virtual environment
+# Fitness Tracking and Recommendation : 
 
-``` python -m venv search_engine ```
+  Deployed Webapp :  https://fitnessgame.azurewebsites.net/ 
+## Features:
+ **Daily Activity Tracking:** Monitor your daily exercises, sleep patterns, and step count effortlessly.
 
-## Activate virtual environment (from parent folder)
+ **Health Recommendations:** Get personalized suggestions for Basal Metabolic Rate (BMR), minimum and recommended calorie intake, and the required amounts of protein, fat, carbs, and sleep duration.
 
-```Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass```
+ **Android Integration:** Developed an Android application that collects step count data and seamlessly sends it to the server via API calls for real-time tracking and analysis.
 
-``` .\fitness_tracker_and_recommendation\Scripts\activate ```
-
-## Install required libraries
-
-``` pip install version_requirements.txt  ```
-
-## Select kernel for Jupiter Notebook ( ipynb )
-
-From top right corner select ``` (parent_folder)/Scripts/python.exe ``` as kernel and run
-
-For python file use ``` python file_name ``` to execute
