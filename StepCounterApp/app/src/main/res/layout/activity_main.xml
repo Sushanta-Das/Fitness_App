@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/step_count_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="false"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="Steps"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/bigger_steps_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/step_count_textview"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:text="0"
+        android:textSize="60sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/url_editText"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/bigger_steps_textview"
+        android:layout_marginTop="46dp"
+        android:ems="10"
+        android:hint="Enter server Url"
+        android:inputType="text"
+        android:textColorHint="#686868"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/url_editText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:background="#0067FD"
+        android:text="Save Server Url"
+        android:textColor="@android:color/white"
+        android:textColorLink="#FFFFFF"
+        app:cornerRadius="7dp" />
+
+    <EditText
+        android:id="@+id/emailEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="450dp"
+        android:ems="10"
+        android:hint="Enter Your registered Email"
+        android:inputType="text"
+        android:textColorHint="#686868"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="500dp"
+        android:text="Save Email"
+        app:cornerRadius="7dp" />
+
+</RelativeLayout>
